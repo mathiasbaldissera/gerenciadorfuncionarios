@@ -89,9 +89,9 @@ export function ListaFuncionarios(props) {
 	}, [funcionarios])
 	useEffect(() => {
 		if (actualSortByKey != null)
-			setFuncionarios(
+			setFuncionarios((f) =>
 				_.orderBy(
-					funcionarios,
+					f,
 					[
 						(funcionario) =>
 							funcionario[actualSortByKey].toLowerCase(),
@@ -112,7 +112,8 @@ export function ListaFuncionarios(props) {
 						href='#'
 						className=' d-flex align-items-center'
 					>
-						<FaUserPlus style={{marginRight: 10, fontSize: 20}} /> Adicionar Funcionário
+						<FaUserPlus style={{ marginRight: 10, fontSize: 20 }} />
+						Adicionar Funcionário
 					</Button>
 				</Col>
 			</Row>
@@ -134,11 +135,13 @@ export function ListaFuncionarios(props) {
 									Sobrenome
 									<SortIndicator sortKey='sobrenome' />
 								</th>
-								<th>E-mail 
-								<SortIndicator sortKey='email' />
+								<th>
+									E-mail
+									<SortIndicator sortKey='email' />
 								</th>
-								<th>NIS
-								<SortIndicator sortKey='nis' />
+								<th>
+									NIS
+									<SortIndicator sortKey='nis' />
 								</th>
 								<th>Ações</th>
 							</tr>
