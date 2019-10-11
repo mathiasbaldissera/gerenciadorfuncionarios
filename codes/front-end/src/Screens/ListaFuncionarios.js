@@ -21,8 +21,8 @@ import {
 } from 'react-icons/fa'
 import { axios } from 'axios'
 import _ from 'lodash'
-import { Link } from 'react-router'
-
+import { TextIconButton } from '../components/TextIconButton'
+import {Redirect} from 'react-router-dom'
 const mockUsers = [
 	{
 		nome: 'Matheus',
@@ -55,6 +55,13 @@ export function SortIndicator(props) {
 	)
 }
 export function ListaFuncionarios(props) {
+	const [redirectTo, setRedirectTo] = useState()
+	function renderRedirect() {
+		if (redirectTo) {
+			return <Redirect to={redirectTo} />
+		}
+	}
+	
 	const [funcionarios, setFuncionarios] = useState(mockUsers)
 
 	const [actualSortByKey, setActualSortByKey] = useState()
@@ -100,21 +107,21 @@ export function ListaFuncionarios(props) {
 				)
 			)
 	}, [actualSortByKey, isSortAsc])
+	
 	return (
 		<>
+			{renderRedirect()}
 			<Row>
 				<Col md={8}>
 					<h3 className=''>Lista de Funcionários</h3>
 				</Col>
 				<Col md={4} className='d-flex justify-content-md-end'>
-					<Button
+					<TextIconButton
+						icon={FaUserPlus}
+						label='Cadastrar Funcionário'
 						variant='success'
-						href='#'
-						className=' d-flex align-items-center'
-					>
-						<FaUserPlus style={{ marginRight: 10, fontSize: 20 }} />
-						Adicionar Funcionário
-					</Button>
+						onClick={()=>setRedirectTo('/cadastrar')}
+					/>
 				</Col>
 			</Row>
 			<Row>
@@ -164,29 +171,21 @@ export function ListaFuncionarios(props) {
 												id={`id_edit${index}`}
 												tooltipText='Editar'
 											>
-												<Button
+												<TextIconButton
+													icon={FaUserTimes}
 													variant='primary'
-													href='#'
-													className='px-1 py-1 d-flex'
-													style={{
-														marginRight: 15,
-													}}
-												>
-													<FaUserEdit />
-												</Button>
+													className='mr-2'
+												/>
 											</TooltipContainer>
 											<TooltipContainer
 												key={`delete${index}`}
 												id={`id_delete${index}`}
 												tooltipText='Deletar'
 											>
-												<Button
+												<TextIconButton
+													icon={FaUserTimes}
 													variant='danger'
-													href='#'
-													className='px-1 py-1 d-flex'
-												>
-													<FaUserTimes />
-												</Button>
+												/>
 											</TooltipContainer>
 										</td>
 									</tr>

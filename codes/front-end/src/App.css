@@ -16,6 +16,7 @@ nav  .navbar-brand  h2{
   white-space: nowrap;
 
 }
+
 .lista-funcionarios  a {
   font-size: 15pt !important
 }
@@ -27,6 +28,9 @@ nav  .navbar-brand  h2{
   box-shadow: 0 0 1px rgba(0, 0, 0, 0);
   position: relative;
   overflow: hidden;
+}
+.font-20{
+  font-size: 20px !important;
 }
 .hvr-underline-reveal:before {
   content: "";
