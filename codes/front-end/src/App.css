@@ -1,0 +1,53 @@
+html, body{
+  background-color: #eeeeee !important
+}
+nav{
+  background-color: #282c34;
+}
+
+nav  .navbar-brand  h2{
+  color: #fff
+}
+
+.App-link {
+  color: #09d3ac;
+}
+.lista-funcionarios .lista-nis, .lista-funcionarios .lista-email, .lista-funcionarios th{
+  white-space: nowrap;
+
+}
+.lista-funcionarios  a {
+  font-size: 15pt !important
+}
+.hvr-underline-reveal {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: perspective(1px) translateZ(0);
+  transform: perspective(1px) translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  position: relative;
+  overflow: hidden;
+}
+.hvr-underline-reveal:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #09d3ac;
+  height: 4px;
+  -webkit-transform: translateY(4px);
+  transform: translateY(4px);
+  -webkit-transition-property: transform;
+  transition-property: transform;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-timing-function: ease-out;
+  transition-timing-function: ease-out;
+}
+.hvr-underline-reveal:hover:before, .hvr-underline-reveal:focus:before, .hvr-underline-reveal:active:before {
+  -webkit-transform: translateY(0);
+  transform: translateY(0);
+  color: #fff
+}
