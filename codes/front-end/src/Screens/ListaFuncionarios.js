@@ -113,7 +113,7 @@ export function ListaFuncionarios(props) {
 			})
 			.catch((e) => {
 				setModalData({
-					title: 'Erro ao atualizar',
+					title: 'Erro ao buscar informações',
 					children: (
 						<p>
 							Erro ao se comunicar com o servidor. Por favor,
