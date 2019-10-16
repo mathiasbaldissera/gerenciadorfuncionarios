@@ -1,48 +1,19 @@
 import React, { useState } from 'react'
-import NavDropdown from 'react-bootstrap/NavDropdown'
-import Button from 'react-bootstrap/Button'
-import Nav from 'react-bootstrap/Nav'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
-import Container from 'react-bootstrap/Container'
-import Table from 'react-bootstrap/Table'
+import {Row, Col, Form} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { Header } from '../components/Header'
-import { Footer } from '../components/Footer'
-import { Page } from '../components'
-import { TiArrowBack } from 'react-icons/ti'
-import  axios  from 'axios'
-import { Modal } from '../components/Modal'
+import axios from 'axios'
+import { generateModal } from '../components/Modal'
 import _ from 'lodash'
-import Form from 'react-bootstrap/Form'
+
 import {
-	FaArrowAltCircleRight,
 	FaTimesCircle,
-	FaRegTimesCircle,
-	FaRegSave,
 	FaArrowAltCircleLeft,
 	FaSave,
 } from 'react-icons/fa'
 import { TextIconButton } from '../components/TextIconButton'
-import { Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom' 
+import { FormLine } from '../components/FormLine';
 
-export const FormLine = (props) => {
-	return (
-		<Form.Group as={Row} controlId={props.controlId} className='pb-3 '>
-			<Form.Label column sm={props.labelsize ? props.labelsize : 4}>
-				{props.label}
-			</Form.Label>
-			<Col sm={props.labelsize ? 12 - props.labelsize : 12 - 4}>
-				{props.children}
-				{props.invalidFeedbackMessage ? (
-					<Form.Control.Feedback type='invalid'>
-						{props.invalidFeedbackMessage}
-					</Form.Control.Feedback>
-				) : null}
-			</Col>
-		</Form.Group>
-	)
-}
 const emailRegex = /[^@]+@[^@]+\.[a-zA-Z]{2,6}/
 export function CadastrarFuncionario(props) {
 	const [redirectTo, setRedirectTo] = useState()
@@ -52,6 +23,8 @@ export function CadastrarFuncionario(props) {
 	const [emailFuncionario, setEmailFuncionario] = useState()
 	const [nisFuncionario, setNisFuncionario] = useState()
 	const [showModal, setShowModal] = useState(false)
+	const [modalData, setModalData] = useState()
+
 	function validateFieldsAndSubmit() {
 		let hasError = false
 		if (
@@ -59,7 +32,7 @@ export function CadastrarFuncionario(props) {
 			nomeFuncionario == null ||
 			nomeFuncionario.length < 2 ||
 			nomeFuncionario.length > 30 ||
-			sobrenomeFuncionario == '' ||
+			sobrenomeFuncionario === '' ||
 			sobrenomeFuncionario == null ||
 			sobrenomeFuncionario.length < 2 ||
 			sobrenomeFuncionario.length > 50 ||
@@ -72,19 +45,62 @@ export function CadastrarFuncionario(props) {
 		}
 		setFormValidated(true)
 		if (hasError) {
-			alert(
-				'Algum campo obrigatório está em branco ou com dados invalidos'
-			)
+			setModalData({
+				title: 'Erro ao cadastrar',
+				children:
+					'Algum campo obrigatório está em branco ou com dados invalidos',
+				confirmText: 'Ok',
+				handleClose: () => setShowModal(false),
+				onlyOneButton: true,
+			})
+			setShowModal(true)
 		} else {
-			axios.post('http://localhost:8081/api/funcionarios', {
-				nome: nomeFuncionario,
-				sobrenome: sobrenomeFuncionario,
-				email: emailFuncionario,
-				nis: nisFuncionario,
-			}).then((r)=> alert('success: '+r)).catch((e)=>alert('post error: '+e))
+			axios
+
+				.post('http://localhost:8080/api/funcionarios/', {
+					nome: nomeFuncionario,
+					sobrenome: sobrenomeFuncionario,
+					email: emailFuncionario,
+					nis: nisFuncionario,
+				})
+				.then((response) => {
+					setModalData({
+						title: 'Sucesso',
+						children: <p>Dados salvos com sucesso</p>,
+						confirmText: 'Ok',
+						handleClose: () => {
+							setRedirectTo('/')
+						},
+						onlyOneButton: true,
+					})
+					setShowModal(true)
+				})
+				.catch((error) => {
+					setModalData({
+						title: 'Erro ao cadastrar',
+						children: error.response ? (
+							<p>
+								O servidor rejeitou e apontou um erro ao cadastrar
+								o funcionário: <code>{error.response.data}</code>
+							</p>
+						) : (
+							<p>
+								Erro ao se comunicar com o servidor. Por favor,
+								tente novamente mais tarde. Se o erro persistir,
+								contate o suporte do sistema
+								<br />
+								<code>Erro: {error.message}</code>
+							</p>
+						),
+						confirmText: 'Ok',
+						handleClose: () => setShowModal(false),
+						onlyOneButton: true,
+					})
+					setShowModal(true)
+				})
 		}
 	}
-	// const history = useHistory()
+
 	function renderRedirect() {
 		if (redirectTo) {
 			return <Redirect to={redirectTo} />
@@ -100,12 +116,20 @@ export function CadastrarFuncionario(props) {
 					<TextIconButton
 						variant='danger'
 						onClick={() => {
-							if (
-								window.confirm(
-									'Deseja realmente voltar? Todos os dados serão perdidos'
-								)
-							)
-								setRedirectTo('/')
+							setModalData({
+								title: 'Voltar',
+								children: (
+									<p>
+										Deseja realmente voltar? Todos os
+										dados serão perdidos
+									</p>
+								),
+								closeText: 'Não',
+								confirmText: 'Sim',
+								handleClose: () => setShowModal(false),
+								handleConfirm: () => setRedirectTo('/'),
+							})
+							setShowModal(true)
 						}}
 						icon={FaArrowAltCircleLeft}
 						label='Voltar'
@@ -210,12 +234,20 @@ export function CadastrarFuncionario(props) {
 						icon={FaTimesCircle}
 						label='Cancelar'
 						onClick={() => {
-							if (
-								window.confirm(
-									'Deseja realmente cancelar? Todos os dados serão perdidos'
-								)
-							)
-								setRedirectTo('/')
+							setModalData({
+								title: 'Cancelar',
+								children: (
+									<p>
+										Deseja realmente cancelar? Todos os
+										dados serão perdidos
+									</p>
+								),
+								closeText: 'Não',
+								confirmText: 'Sim',
+								handleClose: () => setShowModal(false),
+								handleConfirm: () => setRedirectTo('/'),
+							})
+							setShowModal(true)
 						}}
 					/>
 					<TextIconButton
@@ -228,15 +260,9 @@ export function CadastrarFuncionario(props) {
 				</div>
 			</fieldset>
 
-			<Modal
-				show={showModal}
-				onlyOneButton
-				confirmText='Ta bom'
-				title='Impossível completar a ação'
-				handleClose={() => setShowModal(false)}
-			>
-				O back ainda não ta pronto, aguarde até ficar
-			</Modal>
+			{modalData
+				? generateModal({ ...modalData, show: showModal })
+				: null}
 		</div>
 	)
 }
