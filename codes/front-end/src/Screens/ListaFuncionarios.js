@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import {
-	OverlayTrigger,
-	Tooltip,
 	Table,
 	Col,
 	Row,
-	Nav,
-	Button,
 	Alert,
 } from 'react-bootstrap'
 import { TooltipContainer } from '../components'

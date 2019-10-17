@@ -1,6 +1,5 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
-import { FaTimesCircle } from 'react-icons/fa'
 export function TextIconButton(props) {
 	let Icon = props.icon
 	return (

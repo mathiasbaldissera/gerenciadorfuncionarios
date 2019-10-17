@@ -1,6 +1,5 @@
 import React from 'react'
 import Container from 'react-bootstrap/Container'
-import { IoIosHelpCircleOutline } from 'react-icons/io'
 export const Footer = () => {
 	return (
 		<Container

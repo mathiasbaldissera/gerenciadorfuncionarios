@@ -3,7 +3,6 @@ import {Row, Col, Form} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import axios from 'axios'
 import { generateModal } from '../components/Modal'
-import _ from 'lodash'
 
 import {
 	FaTimesCircle,
