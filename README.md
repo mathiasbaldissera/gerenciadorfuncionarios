@@ -23,13 +23,19 @@ Já no projeto Spring Boot (```/codes/back-end```), as seguintes dependências f
 
 ## Executando o projeto
 
+
+
+### Usando Docker
+Para executar este sistema utilizando Docker, basta ter o `Docker` e o `docker-compose` instalados e abrir o terminal e executar `docker-compose up` na pasta do projeto
+
+### Maneira Tradicional
 Para executar este sistema, deve-se executar primeiramente o back-end e então o front-end
 
-### Requisitos
+#### Requisitos
 
 Você deve ter o **JDK8**, o **Maven** e o **NodeJS** instalados em sua maquina para conseguir executar o sistema
 
-### Executando o back-end
+#### Executando o back-end
 
 Abra um terminal, va até a pasta ```/codes/back-end``` e execute o seguinte comando:
 
@@ -39,18 +45,18 @@ mvn spring-boot:run
 
 E então o Maven irá instalar as dependências e executar o projeto.
 
-### Executando o front-end
+#### Executando o front-end
 
 Abra um terminal, va até a pasta ```/codes/front-end``` e execute os seguintes comandos:
 
-#### Usando NPM
+* **Usando NPM**
 
 ``` bash
 npm install
 npm start
 ```
 
-#### Usando Yarn
+* **Usando Yarn**
 
 ``` bash
 yarn install
